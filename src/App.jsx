@@ -3,6 +3,8 @@ import { NewTodoForm } from "./NewTodoForm"
 import "./style.css"
 import { TodoList } from "./TodoList"
 
+const BASE_URL = 'https://jsonplaceholder.typicode.com'
+
 export default function App() {
   const [todos, setTodos] = useState(() => {
     const localValue = localStorage.getItem("ITEMS")
@@ -10,6 +12,13 @@ export default function App() {
 
     return JSON.parse(localValue)
   })
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const response = await fetch('$(BASE_URL)/todos?&_limit=10');
+      const todos = await response.json();
+    };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("ITEMS", JSON.stringify(todos))
